@@ -14,7 +14,8 @@ public interface BorrowedBookService {
 
     BorrowedBook findBorrowedBookById(BorrowedBookId borrowedBookId);
 
-    List<BorrowedBook> getBorrowedBooksByUser(long userId);
+    List<BorrowedBook> getBorrowedBooksByUser(User user);
 
-    List<Long> getBorrowedBookIdsByUser(long userId);
+    BorrowedBook updateBorrowedBook(BorrowedBook borrowedBook);
+    // List<Book> getBorrowedBookIdsByUser(User user);
 }

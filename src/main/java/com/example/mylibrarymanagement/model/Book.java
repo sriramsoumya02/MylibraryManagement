@@ -1,5 +1,6 @@
 package com.example.mylibrarymanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -26,7 +27,12 @@ public class Book {
     @Column(name = "UPDATED_DATE")
     private LocalDateTime updatedDate;
     @OneToMany(mappedBy = "book")
+    @JsonManagedReference
     List<BorrowedBook> borrowersList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "book")
+    @JsonManagedReference
+    List<WaitingList> waitingLists = new ArrayList<>();
 
     protected Book() {
     }
@@ -106,6 +112,19 @@ public class Book {
 
     public boolean removeFromBorrowerList(BorrowedBook borrowedBook) {
         return this.borrowersList.remove(borrowedBook);
+    }
+
+    public List<WaitingList> getWaitingLists() {
+        return waitingLists;
+    }
+
+    public boolean removeFromWaitingLists(WaitingList waitingList) {
+        return this.waitingLists.remove(waitingList);
+    }
+
+    public WaitingList addToWaitingLists(WaitingList waitingList) {
+        this.waitingLists.add(waitingList);
+        return waitingList;
     }
 
     @Override

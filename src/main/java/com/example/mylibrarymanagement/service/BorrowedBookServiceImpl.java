@@ -31,6 +31,7 @@ public class BorrowedBookServiceImpl implements BorrowedBookService {
         return borrowedBookRepository.saveAll(borrowedBooks);
     }
 
+
     @Override
     public BorrowedBook findBorrowedBookById(BorrowedBookId borrowedBookId) {
         Optional<BorrowedBook> borrowedBook = borrowedBookRepository.findById(borrowedBookId);
@@ -38,12 +39,17 @@ public class BorrowedBookServiceImpl implements BorrowedBookService {
     }
 
     @Override
-    public List<BorrowedBook> getBorrowedBooksByUser(long userId) {
-        return borrowedBookRepository.findAllByUser(userId);
+    public List<BorrowedBook> getBorrowedBooksByUser(User user) {
+        return borrowedBookRepository.findAllByUser(user);
     }
 
     @Override
-    public List<Long> getBorrowedBookIdsByUser(long userId) {
-        return borrowedBookRepository.getBookByUser(userId);
+    public BorrowedBook updateBorrowedBook(BorrowedBook borrowedBook) {
+        return borrowedBookRepository.save(borrowedBook);
     }
+
+//    @Override
+//    public List<Book> getBorrowedBookIdsByUser(User user) {
+//        return borrowedBookRepository.getBookByUser(user);
+//    }
 }

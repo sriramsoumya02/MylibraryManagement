@@ -1,6 +1,7 @@
 package com.example.mylibrarymanagement.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -17,6 +18,7 @@ public class User {
     private String name;
     private String email;
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     List<BorrowedBook> borrowersList = new ArrayList<BorrowedBook>();
     @CreationTimestamp
     @Column(name = "CREATED_DATE")
@@ -24,6 +26,10 @@ public class User {
     @UpdateTimestamp
     @Column(name = "UPDATED_DATE")
     private LocalDateTime updatedDate;
+
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    List<WaitingList> waitingLists = new ArrayList<>();
 
     protected User() {
     }
@@ -81,6 +87,20 @@ public class User {
 
     public boolean removeFromBorrowerList(BorrowedBook borrowedBook) {
         return this.borrowersList.remove(borrowedBook);
+    }
+
+
+    public List<WaitingList> getWaitingLists() {
+        return waitingLists;
+    }
+
+    public boolean removeFromWaitingLists(WaitingList waitingList) {
+        return this.waitingLists.remove(waitingList);
+    }
+
+    public WaitingList addToWaitingLists(WaitingList waitingList) {
+        this.waitingLists.add(waitingList);
+        return waitingList;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.mylibrarymanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -8,15 +9,22 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "BORROWED_BOOK")
-@EntityListeners(BorrowedBook.class)
 public class BorrowedBook {
     @EmbeddedId
     @Column(name = "Id")
     private BorrowedBookId id;
+    /*
+     * @MapsId means that we tie those fields to a part of the key, and they're the foreign keys of a many-to-one relationship.
+     * We need it, because as we mentioned above, in the composite key we can't have entities.
+     * */
     @JoinColumn(name = "BOOKID", insertable = false, updatable = false)
+    @MapsId("bookId")
+    @JsonBackReference
     @ManyToOne
     private Book book;
     @JoinColumn(name = "USERID", insertable = false, updatable = false)
+    @MapsId("userId")
+    @JsonBackReference
     @ManyToOne
     private User user;
     @Column(name = "NO_OF_RENEWALS")
@@ -37,6 +45,8 @@ public class BorrowedBook {
 
     public BorrowedBook(Book book, User user, LocalDateTime issuedDate, LocalDateTime dueDate) {
         this.id = new BorrowedBookId(book.getId(), user.getId());
+        this.book = book;
+        this.user = user;
         this.noOfRenewals = 0;
         this.issuedDate = issuedDate;
         this.dueDate = dueDate;

@@ -21,6 +21,14 @@ public class BorrowedBookId implements Serializable {
         this.userId = userId;
     }
 
+    public long getBookId() {
+        return bookId;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
